@@ -1,7 +1,7 @@
 ################################################################
 [ENVIRONMENTS SETUP]:
 
-1) Install node js (package instaler)
+1) Install node js (package installer)
 2) Install JSON Server
 npm install -g json-server
 3) Start JSON Server:

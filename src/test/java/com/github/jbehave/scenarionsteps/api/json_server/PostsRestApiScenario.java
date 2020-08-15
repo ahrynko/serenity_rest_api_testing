@@ -6,12 +6,16 @@ import com.github.api.dto.json_server.PostsDTO;
 import io.restassured.response.Response;
 import net.serenitybdd.core.Serenity;
 import net.thucydides.core.annotations.Steps;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.unitils.reflectionassert.ReflectionAssert;
+
+import java.util.List;
+import java.util.Map;
 
 public class PostsRestApiScenario {
 
@@ -21,6 +25,8 @@ public class PostsRestApiScenario {
     private static final String CREATED_POST_KEY = "created_post_key";    //POST (response)ответ
     private static final String EXPECTED_POST_DATA_KEY = "expected_post_data_key";   //POST (current table PostsDTO object)
     private static final String UPDATED_POST_DATA_KEY = "updated_post_data_key";   //PUT (update)
+    private static final String FILTERED_POSTS_BY_QUERY_PARAMS_KEY = "filtered_posts_by_query_params_key";  //GET (getByQueryParams)
+
     private static final Integer EXPECTED_POST_ID = 1;  //DELETE
 
     @Given("user creates new 'POST', using API: $postData")
@@ -42,6 +48,18 @@ public class PostsRestApiScenario {
         Logger.out.debug("! ----------- Removing Rest API Created Resources Done ----------- !");
     }
 
+    @Given("user retrieved all 'POST'")
+    public void retrievedAllPost() {
+        final List<PostsDTO> getListPosts = restApiGetPostSteps.getAllPosts();
+    }
+
+    @When("user filters retrieved Posts by next filter params: $filterParams")
+    public void filterAllPostsByQueryParameters(final ExamplesTable filterParams) {
+        final Map<String, String> queryParams = filterParams.getRow(0);
+        final List<PostsDTO> filteredByQueryParams = restApiGetPostSteps.getByQueryParams(queryParams);
+        Serenity.setSessionVariable(FILTERED_POSTS_BY_QUERY_PARAMS_KEY).to(filteredByQueryParams);
+    }
+
     @When("user update existing post, using following data:  $newPostData")
     public void updateExistingPost(final ExamplesTable requestBody) {
 
@@ -59,6 +77,29 @@ public class PostsRestApiScenario {
 
         //Положили в сессию Serenity проапдейченый Post Object (для дальнейшей проверки в @Then)
         Serenity.setSessionVariable(UPDATED_POST_DATA_KEY).to(updatedPost);
+    }
+
+    @Then("each filtered Post should contain such data only: $filteredData")
+    public void arePostsFilteredCorrectly(final ExamplesTable filteredData) {
+
+        final Map<String, String> expectedFilteredPosts = filteredData.getRow(0);
+
+        final List<PostsDTO> actualFilteredPosts = Serenity.sessionVariableCalled(FILTERED_POSTS_BY_QUERY_PARAMS_KEY);
+
+        Assertions.assertThat(actualFilteredPosts)
+                .as("There are no filtered Posts retrieved!")
+                .isNotEmpty();
+
+        actualFilteredPosts.forEach(post -> {
+
+            Assertions.assertThat(post.getAuthor())
+                    .as("There is incorrect Author!")
+                    .isEqualTo(expectedFilteredPosts.get("author"));
+
+            Assertions.assertThat(post.getTitle())
+                    .as("There is incorrect Title!")
+                    .isEqualTo(expectedFilteredPosts.get("title"));
+        });
     }
 
     @Then("following post should be updated")

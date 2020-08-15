@@ -16,6 +16,7 @@ And user creates new 'POST', using API:
 | Serenity | Hrynko Y | 35  |
 Then new 'POST' should be created to posts
 
+
 Scenario: Verify user is able to update existing Post (POST + PUT + GET)
 
 Given user creates new 'POST', using API:
@@ -26,6 +27,17 @@ When user update existing post, using following data:
 | title                                    | author         | age |
 | Java Programming Language. JDK Version 8 | Gerbert Shield | 51  |
 Then following post should be updated
+
+
+Scenario: Verify user is able to filter all Posts, by filter data ( POST + GET (getByQueryParams))
+
+Given user retrieved all 'POST'
+When user filters retrieved Posts by next filter params:
+| title                                    | author         |
+| Java Programming Language. JDK Version 8 | Gerbert Shield |
+Then each filtered Post should contain such data only:
+| title                                    | author         |
+| Java Programming Language. JDK Version 8 | Gerbert Shield |
 
 
 Scenario: Verify user is able to filter all Posts, by filter data ( 3 POST + GET (getByQueryParams))
@@ -40,9 +52,9 @@ And user creates new 'POST', using API:
 | title                                    | author         | age |
 | Java Programming Language. JDK Version 8 | Gerbert Shield | 51  |
 
-!-- When user filters retrieved Posts by next filter params:
-!-- | title                                    | author         |
-!-- | Java Programming Language. JDK Version 8 | Gerbert Shield |
-!-- Then each filtered Post should contain such data only:
-!-- | title                                    | author         |
-!-- | Java Programming Language. JDK Version 8 | Gerbert Shield |
+When user filters retrieved Posts by next filter params:
+| title                                    | author         |
+| Java Programming Language. JDK Version 8 | Gerbert Shield |
+Then each filtered Post should contain such data only:
+| title                                    | author         |
+| Java Programming Language. JDK Version 8 | Gerbert Shield |

@@ -1,8 +1,8 @@
-package com.github.jbehave.scenarionsteps.api;
+package com.github.jbehave.scenarionsteps.api.json_server;
 
-import com.github.serenity.steps.api.PostsRestApiSteps;
+import com.github.serenity.steps.api.json_server.PostsRestApiSteps;
 import com.github.logging.Logger;
-import com.github.api.dto.PostsDTO;
+import com.github.api.dto.json_server.PostsDTO;
 import io.restassured.response.Response;
 import net.serenitybdd.core.Serenity;
 import net.thucydides.core.annotations.Steps;
@@ -11,6 +11,7 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
+import org.unitils.reflectionassert.ReflectionAssert;
 
 public class PostsRestApiScenario {
 
@@ -19,9 +20,10 @@ public class PostsRestApiScenario {
 
     private static final String CREATED_POST_KEY = "created_post_key";    //POST (response)ответ
     private static final String EXPECTED_POST_DATA_KEY = "expected_post_data_key";   //POST (current table PostsDTO object)
+    private static final String UPDATED_POST_DATA_KEY = "updated_post_data_key";   //PUT (update)
     private static final Integer EXPECTED_POST_ID = 1;  //DELETE
 
-    @Given("user creates new 'POST' using API: $postData")
+    @Given("user creates new 'POST', using API: $postData")
     public void createNewPost(final ExamplesTable newPostInfo) {
         final PostsDTO newPostsData = newPostInfo.getRowsAs(PostsDTO.class).get(0);
         final Response newPostResponse = restApiGetPostSteps.createNewPost(newPostsData);
@@ -40,17 +42,37 @@ public class PostsRestApiScenario {
         Logger.out.debug("! ----------- Removing Rest API Created Resources Done ----------- !");
     }
 
+    @When("user update existing post, using following data:  $newPostData")
+    public void updateExistingPost(final ExamplesTable requestBody) {
 
+        //Парсим нашу таблицу (из стори файла) в Object (который будет использоваться в реквест бади)
+        final PostsDTO body = requestBody.getRowsAs(PostsDTO.class).get(0);
 
+        //Получаю из сессии сохраненный респонс (после создания нового Post object)
+        final Response createdPost = Serenity.sessionVariableCalled(CREATED_POST_KEY);
 
-    @Given("I perform 'GET' operation for new post, using API:")
-    public void iPerformGETOperation(final ExamplesTable newPostInfo) {
-        restApiGetPostSteps.iPerformGETForThePostNumber("");
+        //Достаю из респонса id созданного Post Object
+        final Integer createdPostId = createdPost.jsonPath().get("id");
+
+        //Выполняем PUT реквест по айдишке (* createdPostId *) и с использованием реквест бади (* body *)
+        final PostsDTO updatedPost = restApiGetPostSteps.updatePostById(body, createdPostId);
+
+        //Положили в сессию Serenity проапдейченый Post Object (для дальнейшей проверки в @Then)
+        Serenity.setSessionVariable(UPDATED_POST_DATA_KEY).to(updatedPost);
     }
 
-    @When("I perform GET for the post number '1'")
-    public void iPerformGETForThePostNumber() {
-        restApiGetPostSteps.iPerformGETForThePostNumber("getInfo");
+    @Then("following post should be updated")
+    public void isCreatedPostUpdatedByNewData() {
+
+        //Получаем из Serenity session Post Object, который мы обновили и получили в @When (PUT)
+        final PostsDTO expectedPostData = Serenity.sessionVariableCalled(UPDATED_POST_DATA_KEY);
+
+        //Отправили GET request, получили респонс
+        final PostsDTO actualPostData = restApiGetPostSteps.getPostById(expectedPostData.getId());
+
+        //Сравили два Post Objects (после PUT, после GET)
+        ReflectionAssert.assertReflectionEquals("There is incorrect 'updated' Post!",
+                expectedPostData, actualPostData);
     }
 
     @Then("new 'POST' should be created to posts")
@@ -82,14 +104,4 @@ public class PostsRestApiScenario {
         softAssertions.assertAll();
     }
 
-
-    @Then("I should see the author name as 'Hrynko A'")
-    public void iShouldSeeAuthorNameAs(final String arg0) {
-
-    }
-
-    @Then("I should see the author names")
-    public void iShouldSeeAuthorNames() {
-        restApiGetPostSteps.iShouldSeeAuthorNameAs("");
-    }
 }

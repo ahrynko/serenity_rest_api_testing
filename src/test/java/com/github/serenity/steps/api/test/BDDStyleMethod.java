@@ -1,12 +1,13 @@
-package com.github.serenity.steps.api;
+package com.github.serenity.steps.api.test;
 
+import com.github.serenity.steps.api.AbstractApiSteps;
 import io.restassured.http.ContentType;
 import static io.restassured.RestAssured.*;
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 
-public class BDDStyleMethod extends AbstractApiSteps{
+public class BDDStyleMethod extends AbstractApiSteps {
 
     private static final String POSTS_API_PATH = "/posts";
 

@@ -1,4 +1,4 @@
-package com.github.serenity.steps.api;
+package com.github.serenity.steps.api.json_server;
 
 import com.github.common.data.EnvironmentProperties;
 import io.restassured.RestAssured;

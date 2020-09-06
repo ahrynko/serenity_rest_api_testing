@@ -1,7 +1,6 @@
 package com.github.serenity.steps.api.json_server;
 
 import com.github.api.dto.json_server.PostsDTO;
-import com.github.serenity.steps.api.AbstractApiSteps;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;

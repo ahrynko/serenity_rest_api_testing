@@ -1,6 +1,6 @@
 package com.github.serenity.steps.api.test;
 
-import com.github.serenity.steps.api.AbstractApiSteps;
+import com.github.serenity.steps.api.json_server.AbstractApiSteps;
 import net.thucydides.core.annotations.Step;
 
 public class ApiTestSteps extends AbstractApiSteps {

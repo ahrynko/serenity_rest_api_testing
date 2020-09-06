@@ -1,6 +1,6 @@
 package com.github.serenity.steps.api.test;
 
-import com.github.serenity.steps.api.AbstractApiSteps;
+import com.github.serenity.steps.api.json_server.AbstractApiSteps;
 import io.restassured.http.ContentType;
 import static io.restassured.RestAssured.*;
 import static java.lang.String.format;

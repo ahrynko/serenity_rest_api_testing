@@ -1,4 +1,4 @@
-package com.github.serenity.steps.db;
+package com.github.serenity.steps.api.db;
 
 import com.github.db.DataBaseUtils;
 import com.github.db.dto.Student;

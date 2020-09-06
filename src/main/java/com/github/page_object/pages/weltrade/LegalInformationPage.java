@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 public class LegalInformationPage extends AbstractPage {
 
-    private static final String LIST_SEARCH_RESULT = "//h3[@class='ng-binding ng-scope']";
-    private static final String TITLE_ARTICLE = "//h3[@class='ng-binding ng-scope']";
-    private static final String BODY_ARTICLE = "//div[@class='ng-binding']";
+    private static final String LIST_SEARCH_RESULT = "//div[@class='wt-legal-middle-content-bl']//div//div[@ng-if='section.content.length > 1']";
+    private static final String TITLE_ARTICLE = ".//h3[@class='ng-binding ng-scope']";
+    private static final String BODY_ARTICLE = ".//div[@class='ng-binding']";
 
     public LegalInformationPage(final WebDriver webDriver) {
         super(webDriver);

@@ -9,4 +9,5 @@ Scenario: Check the ability to search by articles in legal informations
 
 Given user opened site 'https://ru.weltrade.com/legal/'
 When user retrieved all articles to list with site
-!-- And user executed Rest Request
+And user executed Rest Request with all articles
+Then compared two List with site and Rest Request

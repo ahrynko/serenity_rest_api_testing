@@ -7,8 +7,11 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)  // скипать все поля кроме (title/body)
+@JsonIgnoreProperties(ignoreUnknown = true)  // скипать все поля кроме (title/content)
 public class ArticleDTO {
+
+    public ArticleDTO() {
+    }
 
     @JsonProperty("title")  // with JSON - REST
     private String title;
@@ -16,18 +19,4 @@ public class ArticleDTO {
     @JsonProperty("content")
     private String body;
 
-/*
-    public ArticleDTO(final String title, final String body) { //перечача через конструктор, что-бы не вызывать сеттеры
-        this.title = title;
-        this.body = body;
-    }
-*/
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getBody() {
-        return body;
-    }
 }

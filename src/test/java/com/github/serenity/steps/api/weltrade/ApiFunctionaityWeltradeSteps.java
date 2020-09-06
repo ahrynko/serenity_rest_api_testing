@@ -1,10 +1,14 @@
 package com.github.serenity.steps.api.weltrade;
 
 import com.github.common.data.EnvironmentProperties;
+import com.github.page_object.model.weltrade.ArticleDTO;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ApiFunctionaityWeltradeSteps {
 
@@ -21,6 +25,14 @@ public class ApiFunctionaityWeltradeSteps {
                 .contentType(ContentType.JSON)      //work with json
                 .body("[{\"action\":\"partner.getCalcProfitInfo\",\"data\":[]}]")
                 .post(SEARCH_ENDPOINT).asString();
+    }
+
+    public List<ArticleDTO> retrieveArticlesFromApi() {
+        return Arrays.asList(RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body("[{\"action\":\"tools.getLegalInfo\",\"data\":{\"region\":\"ru\"}}]")
+                .post(SEARCH_ENDPOINT)
+                .as(ArticleDTO[].class));
     }
 }
 

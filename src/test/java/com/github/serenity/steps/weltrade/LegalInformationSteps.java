@@ -2,6 +2,8 @@ package com.github.serenity.steps.weltrade;
 
 import com.github.page_object.model.weltrade.ArticleDTO;
 import com.github.page_object.pages.weltrade.LegalInformationPage;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.pages.Pages;
 import net.thucydides.core.steps.ScenarioSteps;
@@ -25,5 +27,4 @@ public class LegalInformationSteps extends ScenarioSteps {
     public List<ArticleDTO> getAllArticles() {
         return legalInformationPage.getArticleItemsUsingStreamApi();
     }
-
 }

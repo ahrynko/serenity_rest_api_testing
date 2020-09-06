@@ -2,7 +2,8 @@ package com.github.common.data;
 
 public enum EnvironmentProperties {  //can store constructor
 
-    LOCAL_API_URL("local.api.url");
+    LOCAL_API_URL("local.api.url"),
+    WELTRADE_BASE_URL("weltrade.base.url");
 
 
     private String propertyKey;

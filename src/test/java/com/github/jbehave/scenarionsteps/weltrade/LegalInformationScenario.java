@@ -9,7 +9,6 @@ import net.thucydides.core.annotations.Steps;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
-import org.openqa.selenium.By;
 import org.unitils.reflectionassert.ReflectionAssert;
 
 import java.util.List;
@@ -38,17 +37,28 @@ public class LegalInformationScenario {
         final List<ArticleDTO> expectedArticleList = Serenity.sessionVariableCalled("expected_article_list");
         final List<Document> actualArticleList = Serenity.sessionVariableCalled("actual_article_list");
 
-        actualArticleList.stream().map(articles -> {  // преобраз. одного сосотояния в другое
-            String title = articles.getData().get(0).getSection_articles_array().get(0).getTitle();
-            String body = articles.getData().get(0).getSection_articles_array().get(0).getContent();
+        final List<Document.ArticlesParam> articlesArray = actualArticleList.listIterator().next()
+                .getData().listIterator().next().getSection_articles_array();
 
-            return new Document(title, body);  //ref
+        final List<ArticleDTO> collectActualArticleList = articlesArray.stream().map(articles -> {
+            String title = articles.getTitle();
+            String body = articles.getContent();
+
+            return new ArticleDTO(title, body);
         }).collect(Collectors.toList());
 
+        /*final List<ArticleDTO> collect = test.stream().map(articles -> {
+            String title = articles.getData().listIterator().next().getSection_articles_array().listIterator().next().getTitle();  //ref
+            String body = articles.getData().listIterator().next().getSection_articles_array().listIterator().next().getContent();   //ref .get(0).getContent();
+
+            return new ArticleDTO(title, body);
+        }).collect(Collectors.toList());*/
+
         Logger.out.info(expectedArticleList.size());
+        Logger.out.info(collectActualArticleList.size());
 
         ReflectionAssert.assertReflectionEquals("There is incorrect articles displayed!",
-                expectedArticleList , actualArticleList );
+                expectedArticleList , collectActualArticleList );
 
     }
 

@@ -3,6 +3,7 @@ package com.github.jbehave.scenarionsteps.weltrade;
 import com.github.logging.Logger;
 import com.github.page_object.model.weltrade.ArticleDTO;
 import com.github.serenity.steps.weltrade.LegalInformationSteps;
+import com.github.web_services.weltrade.Document;
 import net.serenitybdd.core.Serenity;
 import net.thucydides.core.annotations.Steps;
 import org.jbehave.core.annotations.Given;
@@ -33,10 +34,14 @@ public class LegalInformationScenario {
     public void verifyCompareLists() {
 
         final List<ArticleDTO> expectedArticleList = Serenity.sessionVariableCalled("expected_article_list");
-        final List<ArticleDTO> actualArticleList = Serenity.sessionVariableCalled("actual_article_list");
+        final List<Document> actualArticleList = Serenity.sessionVariableCalled("actual_article_list");
 
-        Logger.out.info(expectedArticleList.toArray());
-        Logger.out.info(actualArticleList.toArray()); //title=null, body=null
+
+//        Document.DataType.getSection_articles_array().size();
+//        Logger.out.info(Document.DataType.getSection_articles_array().size());
+
+
+        Logger.out.info(expectedArticleList.size());
 
         ReflectionAssert.assertReflectionEquals("There is incorrect articles displayed!",
                 expectedArticleList , actualArticleList );

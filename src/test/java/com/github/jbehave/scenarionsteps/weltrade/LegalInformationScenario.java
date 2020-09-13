@@ -9,9 +9,11 @@ import net.thucydides.core.annotations.Steps;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
+import org.openqa.selenium.By;
 import org.unitils.reflectionassert.ReflectionAssert;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LegalInformationScenario {
 
@@ -36,10 +38,12 @@ public class LegalInformationScenario {
         final List<ArticleDTO> expectedArticleList = Serenity.sessionVariableCalled("expected_article_list");
         final List<Document> actualArticleList = Serenity.sessionVariableCalled("actual_article_list");
 
+        actualArticleList.stream().map(articles -> {  // преобраз. одного сосотояния в другое
+            String title = articles.getData().get(0).getSection_articles_array().get(0).getTitle();
+            String body = articles.getData().get(0).getSection_articles_array().get(0).getContent();
 
-//        Document.DataType.getSection_articles_array().size();
-//        Logger.out.info(Document.DataType.getSection_articles_array().size());
-
+            return new Document(title, body);  //ref
+        }).collect(Collectors.toList());
 
         Logger.out.info(expectedArticleList.size());
 

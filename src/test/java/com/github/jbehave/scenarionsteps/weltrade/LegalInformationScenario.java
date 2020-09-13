@@ -41,18 +41,12 @@ public class LegalInformationScenario {
                 .getData().listIterator().next().getSection_articles_array();
 
         final List<ArticleDTO> collectActualArticleList = articlesArray.stream().map(articles -> {
-            String title = articles.getTitle();
-            String body = articles.getContent();
+            String title = articles.getTitle().replaceAll("<p>","").replaceAll("</p>","").trim();
+            String body = articles.getContent().replaceAll("<p>","").replaceAll("</p>","").trim();
 
             return new ArticleDTO(title, body);
         }).collect(Collectors.toList());
 
-        /*final List<ArticleDTO> collect = test.stream().map(articles -> {
-            String title = articles.getData().listIterator().next().getSection_articles_array().listIterator().next().getTitle();  //ref
-            String body = articles.getData().listIterator().next().getSection_articles_array().listIterator().next().getContent();   //ref .get(0).getContent();
-
-            return new ArticleDTO(title, body);
-        }).collect(Collectors.toList());*/
 
         Logger.out.info(expectedArticleList.size());
         Logger.out.info(collectActualArticleList.size());

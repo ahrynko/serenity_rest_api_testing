@@ -1,17 +1,15 @@
 package com.github.jbehave.scenarionsteps.api.weltrade;
 
 import com.github.logging.Logger;
-import com.github.page_object.model.weltrade.ArticleDTO;
 import com.github.serenity.steps.api.weltrade.ApiFunctionaityWeltradeSteps;
 import com.github.web_services.weltrade.legal.Document;
-import com.github.web_services.weltrade.quotes.Export;
 import com.github.web_services.weltrade.quotes.RestTemplate;
 import net.serenitybdd.core.Serenity;
 import net.thucydides.core.annotations.Steps;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.When;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,16 +41,19 @@ public class ApiFunctionalityWeltradeScenario {
         final String actualQuotesList = restTemplate.retrieveQuotesFromApi();
         Serenity.setSessionVariable("actual_quotes_list").to(actualQuotesList);
 
-        Logger.out.info("Result quotes: " + actualQuotesList);
+        final List<String> items = actualQuotesList.lines().map(item -> {
+            List<String> symbol = Collections
+                    .singletonList(item.replaceAll("\\[", "")
+                    .replace("quotes", "")
+                    .replaceAll("\\]", "")
+                    .replaceAll("\\(", "")
+                    .replaceAll("\\)", ""));
 
-      /*  List<String> items = Arrays.asList(actualQuotesList.split("\\s*,\\s*"));
-        String [] items2 = actualQuotesList.split("\\s*,\\s*");
-
-        final List<Export> items1 = actualQuotesList.lines().map(item -> {
-            String symbol = item.replaceAll("quotes","").trim();
-            return new Export(symbol);
+            return String.valueOf(symbol);
         }).collect(Collectors.toList());
-        Logger.out.info("Result quotes: " + items1.listIterator().next().getCurrency_pair());*/
+
+        Logger.out.info("Result quotes_2: " + items.listIterator().next());
+
     }
 
 }

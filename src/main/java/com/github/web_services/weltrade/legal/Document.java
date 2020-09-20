@@ -1,4 +1,4 @@
-package com.github.web_services.weltrade;
+package com.github.web_services.weltrade.legal;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -3,7 +3,7 @@ package com.github.jbehave.scenarionsteps.weltrade;
 import com.github.logging.Logger;
 import com.github.page_object.model.weltrade.ArticleDTO;
 import com.github.serenity.steps.weltrade.LegalInformationSteps;
-import com.github.web_services.weltrade.Document;
+import com.github.web_services.weltrade.legal.Document;
 import net.serenitybdd.core.Serenity;
 import net.thucydides.core.annotations.Steps;
 import org.jbehave.core.annotations.Given;

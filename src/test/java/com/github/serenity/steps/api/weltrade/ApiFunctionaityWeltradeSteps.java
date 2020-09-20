@@ -1,7 +1,8 @@
 package com.github.serenity.steps.api.weltrade;
 
 import com.github.common.data.EnvironmentProperties;
-import com.github.web_services.weltrade.Document;
+import com.github.web_services.weltrade.legal.Document;
+import com.github.web_services.weltrade.quotes.Export;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
@@ -35,5 +36,13 @@ public class ApiFunctionaityWeltradeSteps {
                 .as(Document[].class));
 
     }
+
+//    public List<String> retrieveQuotesFromApi() { //refactor
+//        return Arrays.asList (RestAssured.given()
+//                .relaxedHTTPSValidation()
+//                .contentType(ContentType.JSON)
+//                .get(SEARCH_ENDPOINT).asString());       //refactor
+////                .as(Export[].class));
+//    }
 }
 

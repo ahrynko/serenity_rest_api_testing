@@ -2,7 +2,7 @@ package com.github.serenity.steps.api.weltrade;
 
 import com.github.common.data.EnvironmentProperties;
 import com.github.web_services.weltrade.legal.Document;
-import com.github.web_services.weltrade.quotes.Export;
+import com.github.web_services.weltrade.seminars.Seminars;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
@@ -26,6 +26,14 @@ public class ApiFunctionaityWeltradeSteps {
                 .contentType(ContentType.JSON)      //work with json
                 .body("[{\"action\":\"partner.getCalcProfitInfo\",\"data\":[]}]")
                 .post(SEARCH_ENDPOINT).asString();
+    }
+
+    public List<Seminars> getMeetUpList() {
+        return Arrays.asList (RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body("[{\"action\":\"events.meetUpList\",\"data\":{\"region\":\"ru\"}}]")
+                .post(SEARCH_ENDPOINT)
+                .as(Seminars[].class));
     }
 
     public List<Document> retrieveArticlesFromApi() {

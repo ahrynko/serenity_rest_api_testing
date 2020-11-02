@@ -4,6 +4,7 @@ import com.github.logging.Logger;
 import com.github.serenity.steps.api.weltrade.ApiFunctionaityWeltradeSteps;
 import com.github.web_services.weltrade.legal.Document;
 import com.github.web_services.weltrade.quotes.RestTemplate;
+import com.github.web_services.weltrade.seminars.Seminars;
 import net.serenitybdd.core.Serenity;
 import net.thucydides.core.annotations.Steps;
 import org.jbehave.core.annotations.Given;
@@ -26,6 +27,18 @@ public class ApiFunctionalityWeltradeScenario {
         Logger.out.info("Result action: " + calcProfitList);
 
     }
+
+    @Given("I perform 'POST' operation using API to events")
+    public void getRestRequestMeetUp() {
+
+        final List<Seminars> actualMeetUpList = testSteps.getMeetUpList();
+
+        final List<Seminars.MeetUps> meetUpsList = actualMeetUpList.listIterator().next().getData().getMeetUps();
+
+        meetUpsList.forEach(meetUp -> Logger.out.info(String.format("** [Text Title] ** %s\n",
+                meetUp.getTitle())));
+    }
+
 
     @When("user executed Rest Request with all articles")
     public void getRestRequestWithAllArticles() {

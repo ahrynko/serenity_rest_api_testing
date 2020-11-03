@@ -1,6 +1,7 @@
 package com.github.serenity.steps.api.weltrade;
 
 import com.github.common.data.EnvironmentProperties;
+import com.github.web_services.weltrade.conditions.Instruments;
 import com.github.web_services.weltrade.legal.Document;
 import com.github.web_services.weltrade.seminars.Seminars;
 import io.restassured.RestAssured;
@@ -42,6 +43,15 @@ public class ApiFunctionaityWeltradeSteps {
                 .body("[{\"action\":\"tools.getLegalInfo\",\"data\":{\"region\":\"ru\"}}]")
                 .post(SEARCH_ENDPOINT)
                 .as(Document[].class));
+
+    }
+
+    public List<Instruments> retrieveInstrumentsFromApi() {
+        return Arrays.asList (RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body("[{\"action\":\"partner.getCalcProfitInfo\",\"data\":[]}]")
+                .post(SEARCH_ENDPOINT)
+                .as(Instruments[].class));
 
     }
 

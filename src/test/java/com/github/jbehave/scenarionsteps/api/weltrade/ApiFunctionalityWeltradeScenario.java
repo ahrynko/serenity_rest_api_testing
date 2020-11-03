@@ -2,6 +2,7 @@ package com.github.jbehave.scenarionsteps.api.weltrade;
 
 import com.github.logging.Logger;
 import com.github.serenity.steps.api.weltrade.ApiFunctionaityWeltradeSteps;
+import com.github.web_services.weltrade.conditions.Instruments;
 import com.github.web_services.weltrade.legal.Document;
 import com.github.web_services.weltrade.quotes.RestTemplate;
 import com.github.web_services.weltrade.seminars.Seminars;
@@ -45,6 +46,13 @@ public class ApiFunctionalityWeltradeScenario {
 
         final List<Document> actualArticleList = testSteps.retrieveArticlesFromApi();
         Serenity.setSessionVariable("actual_article_list").to(actualArticleList);
+    }
+
+    @When("user executed Rest Request with the same instruments")
+    public void getRestRequestWithInstruments() {
+        final List<Instruments> actualInstrumentsList = testSteps.retrieveInstrumentsFromApi();
+        Serenity.setSessionVariable("actual_instruments_list").to(actualInstrumentsList);
+
     }
 
     @When("user executed Rest Request with the same quotes.json")

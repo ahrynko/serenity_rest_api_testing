@@ -29,10 +29,11 @@ public class PartnerRemunerationPage extends AbstractPage {
                 .stream()
                 .map(instruments -> {
                     String instrument = instruments.find(By.xpath(INSTRUMENT_LOCATOR)).getText();
-                    String spread = instruments.find(By.xpath(SPREAD_LOCATOR)).getText();
-                    String points = instruments.find(By.xpath(POINTS_LOCATOR)).getText();
-                    String usd = instruments.find(By.xpath(USD_LOCATOR)).getText();
-                    String mtp = instruments.find(By.xpath(MTP_LOCATOR)).getText();
+                    String spread = instruments.find(By.xpath(SPREAD_LOCATOR)).getText().replaceAll("pips","").trim();
+                    String points = instruments.find(By.xpath(POINTS_LOCATOR)).getText().replaceAll("pips","").trim();
+                    String usd = instruments.find(By.xpath(USD_LOCATOR)).getText().replaceAll("USD","").trim();
+                    String mtp = instruments.find(By.xpath(MTP_LOCATOR)).getText()
+                            .replaceAll(".00 pips","").trim();
 
                     return new InstrumentsDTO(instrument, spread, points, usd, mtp);
                 }).collect(Collectors.toList());

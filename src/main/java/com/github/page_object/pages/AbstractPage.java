@@ -5,7 +5,7 @@ import net.thucydides.core.util.EnvironmentVariables;
 import net.thucydides.core.util.SystemEnvironmentVariables;
 import org.openqa.selenium.WebDriver;
 
-public class AbstractPage extends PageObject {
+public abstract class AbstractPage extends PageObject {
 
     public AbstractPage(final WebDriver webDriver){  //dependency injection
         super(webDriver);

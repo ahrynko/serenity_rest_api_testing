@@ -4,6 +4,7 @@ import com.github.common.data.EnvironmentProperties;
 import com.github.web_services.weltrade.conditions.Instruments;
 import com.github.web_services.weltrade.legal.Document;
 import com.github.web_services.weltrade.seminars.Seminars;
+import com.github.web_services.weltrade.trade2win.LastWinners;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
@@ -43,7 +44,6 @@ public class ApiFunctionaityWeltradeSteps {
                 .body("[{\"action\":\"tools.getLegalInfo\",\"data\":{\"region\":\"ru\"}}]")
                 .post(SEARCH_ENDPOINT)
                 .as(Document[].class));
-
     }
 
     public List<Instruments> retrieveInstrumentsFromApi() {
@@ -52,7 +52,14 @@ public class ApiFunctionaityWeltradeSteps {
                 .body("[{\"action\":\"partner.getCalcProfitInfo\",\"data\":[]}]")
                 .post(SEARCH_ENDPOINT)
                 .as(Instruments[].class));
+    }
 
+    public List<LastWinners> retrieveLastWinnersFromApi() {
+        return Arrays.asList (RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body("[{\"action\":\"events.currentTrade2Win\",\"data\":[]}]")
+                .post(SEARCH_ENDPOINT)
+                .as(LastWinners[].class));
     }
 
 //    public List<String> retrieveQuotesFromApi() { //refactor

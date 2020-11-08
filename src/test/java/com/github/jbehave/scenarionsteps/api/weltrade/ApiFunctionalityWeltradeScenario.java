@@ -6,6 +6,7 @@ import com.github.web_services.weltrade.conditions.Instruments;
 import com.github.web_services.weltrade.legal.Document;
 import com.github.web_services.weltrade.quotes.RestTemplate;
 import com.github.web_services.weltrade.seminars.Seminars;
+import com.github.web_services.weltrade.trade2win.LastWinners;
 import net.serenitybdd.core.Serenity;
 import net.thucydides.core.annotations.Steps;
 import org.jbehave.core.annotations.Given;
@@ -46,12 +47,20 @@ public class ApiFunctionalityWeltradeScenario {
 
         final List<Document> actualArticleList = testSteps.retrieveArticlesFromApi();
         Serenity.setSessionVariable("actual_article_list").to(actualArticleList);
+
     }
 
     @When("user executed Rest Request with the same instruments")
     public void getRestRequestWithInstruments() {
         final List<Instruments> actualInstrumentsList = testSteps.retrieveInstrumentsFromApi();
         Serenity.setSessionVariable("actual_instruments_list").to(actualInstrumentsList);
+
+    }
+
+    @When("user executed Rest Request with the same last current winners")
+    public void getRestRequestWithLastWinners() {
+        final List<LastWinners> actualLastWinnersList = testSteps.retrieveLastWinnersFromApi();
+        Serenity.setSessionVariable("actual_last_winners_list").to(actualLastWinnersList);
 
     }
 
